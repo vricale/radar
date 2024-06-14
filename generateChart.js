@@ -1,12 +1,33 @@
-const { createCanvas } = require('canvas');
+const { createCanvas, Image } = require('canvas');
 const { Chart, registerables } = require('chart.js');
 Chart.register(...registerables);
 
-function generateRadarChartImage(data, labels) {
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = (err) => reject(err);
+    img.src = src;
+  });
+}
+
+async function generateRadarChartImage(data, labels) {
   const canvas = createCanvas(400, 400);
   const ctx = canvas.getContext('2d');
 
-  // Create a new chart instance directly without assigning it to a variable
+  try {
+    const icon = await loadImage('./c3-logo.png'); // Ensure this path is correct
+    ctx.drawImage(icon, 20, 20, 50, 50); // Adjust position and size as needed
+  } catch (error) {
+    console.error('Failed to load the image:', error);
+    return; // Stop execution if the image cannot be loaded
+  }
+
+  // Add additional text
+  ctx.font = 'bold 16px Arial';
+  ctx.fillText('Address stats on Base, Jun 13, 2024', 80, 60); // Adjust position and font as needed
+
+  // Create a new chart instance
   new Chart(ctx, {
     type: 'radar',
     data: {
@@ -32,17 +53,14 @@ function generateRadarChartImage(data, labels) {
           ticks: {
             display: false,
             beginAtZero: true,
-            max: 100  // Set the maximum value of the scale
+            max: 100,
+            stepSize: 100
           },
           pointLabels: {
             display: true,
           },
           grid: {
             display: true,
-            borderColor:  (context) => {
-              // Only display the outermost grid line
-              return context.tick.value === context.scale.max ? '#ccc' : 'rgba(0, 0, 0, 0)';
-            }
           },
           suggestedMin: 0,
           suggestedMax: 100

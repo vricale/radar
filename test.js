@@ -3,7 +3,6 @@ const generateRadarChartImage = require('./generateChart');
 const normalizeData = (data) => {
     const maxVal = Math.max(...data);
     const normalized = data.map(val => (val / maxVal) * 100);
-    console.log("Normalized Data:", normalized); // Add this line to log the output
     return normalized;
 };
 
