@@ -6,34 +6,77 @@ function loadImage(src) {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => resolve(img);
-    img.onerror = (err) => reject(err);
+    img.onerror = reject;
     img.src = src;
   });
 }
 
-async function generateRadarChartImage(data, labels) {
-  const canvas = createCanvas(400, 400);
+async function generateCanvasForLogoAndText(score, roles) {
+  // Define all valid roles and corresponding image file names
+  const validRoles = {
+    'creator1': 'creator1.png',
+    'creator2': 'creator2.png',
+    'creator3': 'creator3.png',
+    'curator1': 'curator1.png',
+    'curator2': 'curator2.png',
+    'curator3': 'curator3.png',
+    'influencer1': 'influencer1.png',
+    'influencer2': 'influencer2.png',
+    'influencer3': 'influencer3.png',
+    'reviewer1': 'reviewer1.png',
+    'reviewer2': 'reviewer2.png',
+    'reviewer3': 'reviewer3.png'
+  };
+
+  const canvasHeight = 300 + (roles.length * 70); // Dynamically adjust the height based on the number of roles
+  const canvas = createCanvas(350, 300);
   const ctx = canvas.getContext('2d');
 
+  // Load and draw the logo
   try {
-    const icon = await loadImage('./c3-logo.png'); // Ensure this path is correct
-    ctx.drawImage(icon, 20, 20, 50, 50); // Adjust position and size as needed
+    const icon = await loadImage('./c3-logo.png');
+    ctx.drawImage(icon, 75, 20, 60, 60); // Adjust positioning and size
   } catch (error) {
-    console.error('Failed to load the image:', error);
-    return; // Stop execution if the image cannot be loaded
+    console.error('Failed to load the logo:', error);
+    return;
   }
 
-  // Add additional text
+  // Add text below the logo
   ctx.font = 'bold 16px Arial';
-  ctx.fillText('Address stats on Base, Jun 13, 2024', 80, 60); // Adjust position and font as needed
+  ctx.fillText('Your Social Score: ' + score, 10, 100); // Adjust position
 
-  // Create a new chart instance
+  // Load and draw role-specific images
+  let yOffset = 120; // Starting position for the first role image
+  for (const role of roles) {
+    if (validRoles[role]) {
+      try {
+        const imagePath = `./${validRoles[role]}`; // Get the correct image path from the map
+        const roleImage = await loadImage(imagePath);
+        ctx.drawImage(roleImage, 75, yOffset, 60, 60); // Draw each image below the last
+        yOffset += 80; // Increase the vertical offset for the next image
+      } catch (error) {
+        console.error(`Failed to load the role image for ${role}:`, error);
+      }
+    } else {
+      console.log(`Invalid role ${role} specified, no image loaded.`);
+    }
+  }
+
+  return canvas;
+}
+
+async function generateCanvasForRadarChart(data, labels, title) {
+  const canvas = createCanvas(400, 300);
+  const ctx = canvas.getContext('2d');
+  const titleArray = title.split('|');
+
+  // Drawing the radar chart
   new Chart(ctx, {
     type: 'radar',
     data: {
       labels: labels,
       datasets: [{
-        label: 'ETH Address Metrics',
+        label: titleArray,
         data: data,
         fill: true,
         backgroundColor: 'rgba(172,154,220,0.5)',
@@ -68,13 +111,31 @@ async function generateRadarChartImage(data, labels) {
       },
       plugins: {
         legend: {
-          display: true
+          display: true,
+          position: 'top'
         }
-      }
+      },
+      events: [], // Disable all interactions
     }
   });
 
-  return canvas.toDataURL(); // Returns base64 string of the image
+  await new Promise(resolve => setTimeout(resolve, 100)); // Ensure chart is drawn
+  return canvas;
 }
 
-module.exports = generateRadarChartImage;
+async function combineCanvases(data, labels, score, roles, title) {
+  const chartCanvas = await generateCanvasForRadarChart(data, labels, title);
+  const logoTextCanvas = await generateCanvasForLogoAndText(score, roles);
+
+  console.log("chartCanvas.width" ,chartCanvas.height, logoTextCanvas.height);
+
+  const combinedCanvas = createCanvas(chartCanvas.width + logoTextCanvas.width, Math.max(chartCanvas.height, logoTextCanvas.height));
+  const ctx = combinedCanvas.getContext('2d');
+
+  ctx.drawImage(logoTextCanvas, 0, 0); // Draw logo and text canvas on the left
+  ctx.drawImage(chartCanvas, logoTextCanvas.width, 0); // Draw radar chart canvas on the right
+
+  return combinedCanvas.toDataURL(); // Returns base64 string of the image
+}
+
+module.exports = combineCanvases;
