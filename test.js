@@ -2,11 +2,6 @@ const http = require('http');
 const url = require('url');
 const combineCanvases = require('./generateChart');
 
-const normalizeData = (data) => {
-    const maxVal = Math.max(...data);
-    return data.map(val => (val / maxVal) * 100);
-};
-
 // Set up HTTP server
 const server = http.createServer(async (req, res) => {
     const parsedUrl = url.parse(req.url, true); // Parse the URL including query strings
@@ -19,8 +14,7 @@ const server = http.createServer(async (req, res) => {
         const title = query.title ? query.title.trim() : 'Your Social Data';
 
         try {
-            const normalizedData = normalizeData(data);
-            const imageData = await combineCanvases(normalizedData, labels, score, roles, title);
+            const imageData = await combineCanvases(data, labels, score, roles, title);
 
             // Respond with JSON containing the image data URL
             res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -29,6 +23,40 @@ const server = http.createServer(async (req, res) => {
             console.error("Error generating image:", error);
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: "Failed to generate image" }));
+        }
+    } else if (parsedUrl.pathname === '/html') {
+        const query = parsedUrl.query;
+        const data = query.data ? query.data.split(',').map(Number) : [50, 50, 50, 50, 50];
+        const score = query.score ? Number(query.score) : 0;
+        const labels = query.labels ? query.labels.split(',') : ['Posts', 'Followers', 'Comments', 'Likes', 'NFTs'];
+        const roles = query.role ? query.role.split(',').map(role => role.trim()) : [];
+        const title = query.title ? query.title.trim() : 'Your Social Data';
+
+        try {
+            const imageData = await combineCanvases(data, labels, score, roles, title);
+
+            // Construct HTML response with embedded image
+            const htmlContent = `
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Generated Image</title>
+                </head>
+                <body>
+                    <img src="${imageData}" alt="Generated Image">
+                </body>
+                </html>
+            `;
+
+            // Respond with HTML content
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(htmlContent);
+        } catch (error) {
+            console.error("Error generating image:", error);
+            res.writeHead(500, { 'Content-Type': 'text/html' });
+            res.end(`<html><body><h1>Error generating image</h1><p>${error.message}</p></body></html>`);
         }
     } else {
         // Handle root or other paths

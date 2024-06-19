@@ -43,7 +43,7 @@ async function generateCanvasForLogoAndText(score, roles) {
 
   // Add text below the logo
   ctx.font = 'bold 16px Arial';
-  ctx.fillText('Your Social Score: ' + score, 10, 100); // Adjust position
+  ctx.fillText('Connect3 Social Score: ' + score, 10, 100); // Adjust position
 
   // Load and draw role-specific images
   let yOffset = 120; // Starting position for the first role image
@@ -52,8 +52,8 @@ async function generateCanvasForLogoAndText(score, roles) {
       try {
         const imagePath = `./${validRoles[role]}`; // Get the correct image path from the map
         const roleImage = await loadImage(imagePath);
-        ctx.drawImage(roleImage, 75, yOffset, 60, 60); // Draw each image below the last
-        yOffset += 80; // Increase the vertical offset for the next image
+        ctx.drawImage(roleImage, 65, yOffset, 80, 80); // Draw each image below the last
+        yOffset += 90; // Increase the vertical offset for the next image
       } catch (error) {
         console.error(`Failed to load the role image for ${role}:`, error);
       }
@@ -112,8 +112,19 @@ async function generateCanvasForRadarChart(data, labels, title) {
       plugins: {
         legend: {
           display: true,
-          position: 'top'
-        }
+          position: 'top',
+          // maxHeight: 300,
+          labels: {
+            boxPadding: 50, // Increase padding as needed
+            boxHeight: 30,
+            boxWidth:10,
+            font: {
+              size:10, // Adjust font size
+            },
+            textAlign: 'center',
+            padding:20,
+          },
+        },
       },
       events: [], // Disable all interactions
     }
