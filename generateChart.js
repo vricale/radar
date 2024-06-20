@@ -50,7 +50,7 @@ async function generateCanvasForLogoAndText(score, roles) {
   ctx.fillText('Connect3 Social Score', 70, 60); // Adjust position
 
   // Add score text
-  ctx.font = '500 38px Outfit'; // Adjust font weight and size
+  ctx.font = '800 38px Outfit'; // Adjust font weight and size
   ctx.fillText(score.toString(), 30, 110); // Adjust position
 
   // Add stats items
