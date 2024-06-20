@@ -1,6 +1,10 @@
 const { createCanvas, Image } = require('canvas');
 const { Chart, registerables } = require('chart.js');
 Chart.register(...registerables);
+// Register custom fonts if needed
+registerFont(path.resolve(__dirname, 'Outfit-Regular.ttf'), { family: 'Outfit' });
+registerFont(path.resolve(__dirname, 'Inter-Regular.ttf'), { family: 'Inter' });
+
 
 function loadImage(src) {
   return new Promise((resolve, reject) => {
@@ -28,32 +32,70 @@ async function generateCanvasForLogoAndText(score, roles) {
     'reviewer3': 'reviewer3.png'
   };
 
-  const canvasHeight = 300 + (roles.length * 70); // Dynamically adjust the height based on the number of roles
-  const canvas = createCanvas(350, 400);
+  // Calculate canvas height based on the number of roles
+  const canvasHeight = 300 + (roles.length * 90); // Adjust as needed for spacing between elements
+  const canvasWidth = 350; // Fixed width for the canvas
+  const canvas = createCanvas(canvasWidth, canvasHeight);
   const ctx = canvas.getContext('2d');
 
   // Load and draw the logo
   try {
     const icon = await loadImage('./c3-logo.png');
-    ctx.drawImage(icon, 90, 20, 60, 60); // Adjust positioning and size
+    ctx.drawImage(icon, 30, 30, 60, 60); // Adjust positioning and size
   } catch (error) {
     console.error('Failed to load the logo:', error);
     return;
   }
 
-  // Add text below the logo
-  ctx.font = 'bold 16px Arial';
-  ctx.fillText('Connect3 Social Score: ' + score, 10, 105); // Adjust position
+  // Add title text below the logo
+  ctx.font = 'bold 18px Outfit'; // Use custom font 'Outfit'
+  ctx.fillStyle = '#1c1e26'; // Adjust text color
+  ctx.textAlign = 'left';
+  ctx.fillText('Connect3 Social Score', 110, 60); // Adjust position
 
-  // Load and draw role-specific images
-  let yOffset = 120; // Starting position for the first role image
-  for (const role of roles) {
+  // Add score text
+  ctx.font = '500 38px Outfit'; // Adjust font weight and size
+  ctx.fillText(score.toString(), 30, 140); // Adjust position
+
+  // Add stats items
+  ctx.font = 'normal 14px Inter'; // Use custom font 'Inter' for stats items
+  ctx.fillStyle = '#4a5067'; // Adjust text color
+  ctx.textAlign = 'left';
+
+  const stats1 = [
+    { count: 100, label: "Posts" },
+    { count: 80, label: "Followers" },
+    { count: 0, label: "Comments" },
+  ];
+
+  const stats2 = [
+    { count: 80, label: "Likes" },
+    { count: 80, label: "NFTs" },
+  ];
+
+  let yOffset = 200; // Starting position for the first stats item
+  for (const stat of [...stats1, ...stats2]) {
+    ctx.fillText(`${stat.count} ${stat.label}`, 110, yOffset); // Adjust position
+    yOffset += 24; // Increase vertical spacing
+  }
+
+  // Add badges section
+  ctx.font = '500 20px Outfit'; // Adjust font weight and size for badges header
+  ctx.fillText('Badges', 30, canvasHeight - 60); // Adjust position
+
+  // Load and draw badge images
+  let badgeX = 30; // Initial X position for badges
+  const badgeY = canvasHeight - 50; // Y position for badges
+  const badgeWidth = 64; // Width of each badge
+  const badgeHeight = 64; // Height of each badge
+  for (let i = 0; i < roles.length && i < 4; i++) { // Only draw up to 4 badges
+    const role = roles[i];
     if (validRoles[role]) {
       try {
         const imagePath = `./${validRoles[role]}`; // Get the correct image path from the map
         const roleImage = await loadImage(imagePath);
-        ctx.drawImage(roleImage, 70, yOffset, 100, 100); // Draw each image below the last
-        yOffset += 110; // Increase the vertical offset for the next image
+        ctx.drawImage(roleImage, badgeX, badgeY, badgeWidth, badgeHeight); // Draw badge image
+        badgeX += badgeWidth + 8; // Adjust X position for the next badge
       } catch (error) {
         console.error(`Failed to load the role image for ${role}:`, error);
       }
