@@ -76,7 +76,7 @@ async function generateCanvasForRadarChart(data, labels, title) {
     data: {
       labels: labels,
       datasets: [{
-        label: titleArray,
+        label: titleArray[0],
         data: data,
         fill: true,
         backgroundColor: 'rgba(172,154,220,0.5)',
@@ -112,11 +112,11 @@ async function generateCanvasForRadarChart(data, labels, title) {
       plugins: {
         legend: {
           display: true,
-          position: 'top',
+          position: 'bottom',
           // maxHeight: 300,
           labels: {
             boxPadding: 50, // Increase padding as needed
-            boxHeight: 30,
+            boxHeight: 20,
             boxWidth:10,
             font: {
               size:10, // Adjust font size
