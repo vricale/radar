@@ -69,7 +69,7 @@ async function generateCanvasForLogoAndText(score, roles) {
     { count: 80, label: "NFTs" },
   ];
 
-  let xOffset = 110; // Starting position for the first stats item
+  let xOffset = 20; // Starting position for the first stats item
   let yOffset = 200; // Vertical position for both rows
   const statsSpacing = 16; // Spacing between stats items
 
