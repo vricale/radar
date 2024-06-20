@@ -24,6 +24,20 @@ const server = http.createServer(async (req, res) => {
             res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: "Failed to generate image" }));
         }
+    } else     if (parsedUrl.pathname === '/imageMinted') {
+        const query = parsedUrl.query;
+        const roles = query.role ? query.role.split(',').map(role => role.trim()) : [];
+        try {
+            const imageData = await generateBadgeMinterCanvas(roles);
+
+            // Respond with JSON containing the image data URL
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ data: imageData }));
+        } catch (error) {
+            console.error("Error generating image:", error);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: "Failed to generate image" }));
+        }
     } else if (parsedUrl.pathname === '/html') {
         const query = parsedUrl.query;
         const data = query.data ? query.data.split(',').map(Number) : [50, 50, 50, 50, 50];
@@ -60,11 +74,7 @@ const server = http.createServer(async (req, res) => {
         }
     } else if (parsedUrl.pathname === '/htmlMinted') {
         const query = parsedUrl.query;
-        const data = query.data ? query.data.split(',').map(Number) : [50, 50, 50, 50, 50];
-        const score = query.score ? Number(query.score) : 0;
-        const labels = query.labels ? query.labels.split(',') : ['Posts', 'Followers', 'Comments', 'Likes', 'NFTs'];
         const roles = query.role ? query.role.split(',').map(role => role.trim()) : [];
-        const title = query.title ? query.title.trim() : 'Your Social Data';
 
         try {
             const imageData = await generateBadgeMinterCanvas(roles);

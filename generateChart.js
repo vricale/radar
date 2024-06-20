@@ -34,20 +34,11 @@ async function generateCanvasForLogoAndText(score, roles) {
   const canvas = createCanvas(canvasWidth, maxCanvasHeight);
   const ctx = canvas.getContext('2d');
 
-  // Load and draw the logo
-  try {
-    const icon = await loadImage('./c3-logo.png');
-    ctx.drawImage(icon, 30, 40, 24, 24); // Adjust positioning and size
-  } catch (error) {
-    console.error('Failed to load the logo:', error);
-    return;
-  }
-
   // Add title text below the logo
   ctx.font = 'bold 20px Outfit'; // Use custom font 'Outfit'
   ctx.fillStyle = '#1c1e26'; // Adjust text color
   ctx.textAlign = 'left';
-  ctx.fillText('Connect3 Social Score', 70, 60); // Adjust position
+  ctx.fillText('Your Farcaster Social Score', 70, 60); // Adjust position
 
   // Add score text
   ctx.font = '650 38px Outfit'; // Adjust font weight and size
@@ -203,7 +194,32 @@ async function combineCanvases(data, labels, score, roles, title) {
   ctx.fillRect(0, 0, combinedCanvas.width, combinedCanvas.height);
 
   ctx.drawImage(logoTextCanvas, 0, 0); // Draw logo and text canvas on the left
-  ctx.drawImage(chartCanvas, logoTextCanvas.width, 0); // Draw radar chart canvas on the right
+
+  // Resize chartCanvas to 70% of its original size
+  const chartCanvasWidth = chartCanvas.width * 0.7;
+  const chartCanvasHeight = chartCanvas.height * 0.7;
+
+  // Calculate the position to center the resized chartCanvas within the remaining space
+  const xOffset = logoTextCanvas.width + (combinedCanvas.width - logoTextCanvas.width - chartCanvasWidth) / 2;
+  const yOffset = (combinedCanvas.height - chartCanvasHeight) / 2;
+
+  // Draw the resized and centered chartCanvas
+  ctx.drawImage(chartCanvas, xOffset, yOffset, chartCanvasWidth, chartCanvasHeight);
+
+  // Load and draw the logo
+  try {
+    const icon = await loadImage('./c3-logo.png');
+    ctx.drawImage(icon, 625, 40, 24, 24); // Adjust positioning and size
+  } catch (error) {
+    console.error('Failed to load the logo:', error);
+    return;
+  }
+
+  // Add title text below the logo
+  ctx.font = 'bold 20px Outfit'; // Use custom font 'Outfit'
+  ctx.fillStyle = '#1c1e26'; // Adjust text color
+  ctx.textAlign = 'left';
+  ctx.fillText('Connect3', 660, 60); // Adjust position
 
   return combinedCanvas.toDataURL(); // Returns base64 string of the image
 }
