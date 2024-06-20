@@ -29,10 +29,9 @@ async function generateCanvasForLogoAndText(score, roles) {
     'reviewer3': 'reviewer3.png'
   };
 
-  // Calculate canvas height based on the number of roles
-  const canvasHeight = 400; // Adjust as needed for spacing between elements
   const canvasWidth = 350; // Fixed width for the canvas
-  const canvas = createCanvas(canvasWidth, canvasHeight);
+  const maxCanvasHeight = 400; // Maximum height constraint for the canvas
+  const canvas = createCanvas(canvasWidth, maxCanvasHeight);
   const ctx = canvas.getContext('2d');
 
   // Load and draw the logo
@@ -72,17 +71,21 @@ async function generateCanvasForLogoAndText(score, roles) {
 
   let yOffset = 200; // Starting position for the first stats item
   for (const stat of [...stats1, ...stats2]) {
-    ctx.fillText(`${stat.count} ${stat.label}`, 110, yOffset); // Adjust position
-    yOffset += 24; // Increase vertical spacing
+    if (yOffset + 24 <= maxCanvasHeight - 40) { // Check if there's enough space for the next stat item
+      ctx.fillText(`${stat.count} ${stat.label}`, 110, yOffset); // Adjust position
+      yOffset += 24; // Increase vertical spacing
+    } else {
+      console.log(`Insufficient space for ${stat.label}. Skipping.`);
+    }
   }
 
   // Add badges section
   ctx.font = '500 20px Outfit'; // Adjust font weight and size for badges header
-  ctx.fillText('Badges', 30, canvasHeight - 60); // Adjust position
+  ctx.fillText('Badges', 30, maxCanvasHeight - 60); // Adjust position
 
   // Load and draw badge images
   let badgeX = 30; // Initial X position for badges
-  const badgeY = canvasHeight - 50; // Y position for badges
+  const badgeY = maxCanvasHeight - 50; // Y position for badges
   const badgeWidth = 64; // Width of each badge
   const badgeHeight = 64; // Height of each badge
   for (let i = 0; i < roles.length && i < 4; i++) { // Only draw up to 4 badges
