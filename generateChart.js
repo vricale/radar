@@ -193,6 +193,8 @@ async function combineCanvases(data, labels, score, roles, title) {
 
   const combinedCanvas = createCanvas(chartCanvas.width + logoTextCanvas.width, Math.max(chartCanvas.height, logoTextCanvas.height));
   const ctx = combinedCanvas.getContext('2d');
+  ctx.fillStyle = '#6826F0';
+  ctx.fillRect(0, 0, combinedCanvas.width, combinedCanvas.height);
 
   ctx.drawImage(logoTextCanvas, 0, 0); // Draw logo and text canvas on the left
   ctx.drawImage(chartCanvas, logoTextCanvas.width, 0); // Draw radar chart canvas on the right
