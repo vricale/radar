@@ -50,7 +50,7 @@ async function generateCanvasForLogoAndText(score, roles) {
   ctx.fillText('Connect3 Social Score', 70, 60); // Adjust position
 
   // Add score text
-  ctx.font = '800 38px Outfit'; // Adjust font weight and size
+  ctx.font = '650 38px Outfit'; // Adjust font weight and size
   ctx.fillText(score.toString(), 30, 110); // Adjust position
 
   // Add stats items
@@ -71,7 +71,7 @@ async function generateCanvasForLogoAndText(score, roles) {
   ];
 
   let xOffset = 30; // Starting position for the first stats item
-  let yOffset = 180; // Vertical position for both rows
+  let yOffset = 175; // Vertical position for both rows
   const statsSpacing = 16; // Spacing between stats items
 
   // Draw stats1 in the first row
