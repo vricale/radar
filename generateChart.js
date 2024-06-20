@@ -117,7 +117,7 @@ async function generateCanvasForRadarChart(data, labels, title) {
           labels: {
             boxPadding: 50, // Increase padding as needed
             boxHeight: 20,
-            boxWidth:10,
+            boxWidth:0,
             font: {
               size:10, // Adjust font size
             },
