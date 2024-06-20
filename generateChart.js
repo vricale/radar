@@ -27,12 +27,14 @@ const validRoles = {
   'reviewer3': 'reviewer3.png'
 };
 
-async function generateCanvasForLogoAndText(score, roles) {
+async function generateCanvasForLogoAndText(score, roles, title) {
 
   const canvasWidth = 350; // Fixed width for the canvas
   const maxCanvasHeight = 400; // Maximum height constraint for the canvas
   const canvas = createCanvas(canvasWidth, maxCanvasHeight);
   const ctx = canvas.getContext('2d');
+
+  const titleArray = title.split('|');
 
   // Add title text below the logo
   ctx.font = '500 20px Outfit'; // Use custom font 'Outfit'
@@ -51,14 +53,14 @@ async function generateCanvasForLogoAndText(score, roles) {
   ctx.textBaseline = 'middle';
 
   const stats1 = [
-    { count: 100, label: "Posts" },
-    { count: 80, label: "Followers" },
-    { count: 0, label: "Comments" },
+    { count: titleArray[1], label: "Posts" },
+    { count: titleArray[2], label: "Followers" },
+    { count: titleArray[3], label: "Comments" },
   ];
 
   const stats2 = [
-    { count: 80, label: "Likes" },
-    { count: 80, label: "NFTs" },
+    { count: titleArray[4], label: "Likes" },
+    { count: titleArray[5], label: "NFTs" },
   ];
 
   let xOffset = 30; // Starting position for the first stats item
@@ -178,7 +180,7 @@ async function generateCanvasForRadarChart(data, labels, title) {
 
 async function combineCanvases(data, labels, score, roles, title) {
   const chartCanvas = await generateCanvasForRadarChart(data, labels, title);
-  const logoTextCanvas = await generateCanvasForLogoAndText(score, roles);
+  const logoTextCanvas = await generateCanvasForLogoAndText(score, roles, title);
 
   console.log("chartCanvas.width" ,chartCanvas.height, logoTextCanvas.height);
 
