@@ -38,11 +38,11 @@ async function generateCanvasForLogoAndText(score, roles) {
   ctx.font = '500 20px Outfit'; // Use custom font 'Outfit'
   ctx.fillStyle = '#1c1e26'; // Adjust text color
   ctx.textAlign = 'left';
-  ctx.fillText('Your Farcaster Social Score', 30, 60); // Adjust position
+  ctx.fillText('Your Farcaster Social Score', 30, 70); // Adjust position
 
   // Add score text
   ctx.font = '650 38px Outfit'; // Adjust font weight and size
-  ctx.fillText(score.toString(), 30, 110); // Adjust position
+  ctx.fillText(score.toString(), 30, 120); // Adjust position
 
   // Add stats items
   ctx.font = '400 12px Inter'; // Use custom font 'Inter' for stats items
@@ -81,11 +81,11 @@ async function generateCanvasForLogoAndText(score, roles) {
 
   // Add badges section
   ctx.font = '500 20px Outfit'; // Adjust font weight and size for badges header
-  ctx.fillText('Badges', 30, maxCanvasHeight - 120); // Adjust position
+  ctx.fillText('Badges', 30, maxCanvasHeight - 150); // Adjust position
 
   // Load and draw badge images
   let badgeX = 30; // Initial X position for badges
-  const badgeY = maxCanvasHeight - 100; // Y position for badges
+  const badgeY = maxCanvasHeight - 130; // Y position for badges
   const badgeWidth = 64; // Width of each badge
   const badgeHeight = 64; // Height of each badge
   for (let i = 0; i < roles.length && i < 4; i++) { // Only draw up to 4 badges
