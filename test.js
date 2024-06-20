@@ -9,7 +9,7 @@ const server = http.createServer(async (req, res) => {
         const query = parsedUrl.query;
         const data = query.data ? query.data.split(',').map(Number) : [50, 50, 50, 50, 50];
         const score = query.score ? Number(query.score) : 0;
-        const labels = query.labels ? query.labels.split(',') : ['Articles', 'Followers', 'Comments', 'Likes', 'NFTs'];
+        const labels = query.labels ? query.labels.split(',') : ['Posts', 'Followers', 'Comments', 'Likes', 'NFTs'];
         const roles = query.role ? query.role.split(',').map(role => role.trim()) : [];
         const title = query.title ? query.title.trim() : 'Your Social Data';
 

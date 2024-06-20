@@ -29,13 +29,13 @@ async function generateCanvasForLogoAndText(score, roles) {
   };
 
   const canvasHeight = 300 + (roles.length * 70); // Dynamically adjust the height based on the number of roles
-  const canvas = createCanvas(350, 300);
+  const canvas = createCanvas(350, 400);
   const ctx = canvas.getContext('2d');
 
   // Load and draw the logo
   try {
     const icon = await loadImage('./c3-logo.png');
-    ctx.drawImage(icon, 75, 20, 60, 60); // Adjust positioning and size
+    ctx.drawImage(icon, 90, 20, 60, 60); // Adjust positioning and size
   } catch (error) {
     console.error('Failed to load the logo:', error);
     return;
@@ -43,7 +43,7 @@ async function generateCanvasForLogoAndText(score, roles) {
 
   // Add text below the logo
   ctx.font = 'bold 16px Arial';
-  ctx.fillText('Connect3 Social Score: ' + score, 10, 100); // Adjust position
+  ctx.fillText('Connect3 Social Score: ' + score, 10, 105); // Adjust position
 
   // Load and draw role-specific images
   let yOffset = 120; // Starting position for the first role image
@@ -52,8 +52,8 @@ async function generateCanvasForLogoAndText(score, roles) {
       try {
         const imagePath = `./${validRoles[role]}`; // Get the correct image path from the map
         const roleImage = await loadImage(imagePath);
-        ctx.drawImage(roleImage, 65, yOffset, 80, 80); // Draw each image below the last
-        yOffset += 90; // Increase the vertical offset for the next image
+        ctx.drawImage(roleImage, 70, yOffset, 100, 100); // Draw each image below the last
+        yOffset += 110; // Increase the vertical offset for the next image
       } catch (error) {
         console.error(`Failed to load the role image for ${role}:`, error);
       }
