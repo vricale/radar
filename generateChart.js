@@ -94,7 +94,7 @@ async function generateCanvasForLogoAndText(score, roles) {
 
   // Load and draw badge images
   let badgeX = 30; // Initial X position for badges
-  const badgeY = maxCanvasHeight - 50; // Y position for badges
+  const badgeY = maxCanvasHeight - 80; // Y position for badges
   const badgeWidth = 64; // Width of each badge
   const badgeHeight = 64; // Height of each badge
   for (let i = 0; i < roles.length && i < 4; i++) { // Only draw up to 4 badges
