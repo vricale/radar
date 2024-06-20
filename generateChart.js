@@ -37,7 +37,7 @@ async function generateCanvasForLogoAndText(score, roles) {
   // Load and draw the logo
   try {
     const icon = await loadImage('./c3-logo.png');
-    ctx.drawImage(icon, 30, 50, 24, 24); // Adjust positioning and size
+    ctx.drawImage(icon, 30, 35, 24, 24); // Adjust positioning and size
   } catch (error) {
     console.error('Failed to load the logo:', error);
     return;
@@ -51,7 +51,6 @@ async function generateCanvasForLogoAndText(score, roles) {
 
   // Add score text
   ctx.font = '500 38px Outfit'; // Adjust font weight and size
-  ctx.fillStyle = '#971c1c';
   ctx.fillText(score.toString(), 30, 110); // Adjust position
 
   // Add stats items
