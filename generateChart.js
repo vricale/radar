@@ -193,7 +193,13 @@ async function combineCanvases(data, labels, score, roles, title) {
 
   const combinedCanvas = createCanvas(chartCanvas.width + logoTextCanvas.width, Math.max(chartCanvas.height, logoTextCanvas.height));
   const ctx = combinedCanvas.getContext('2d');
-  ctx.fillStyle = '#6826F0';
+  // Create linear gradient background
+  const gradient = ctx.createLinearGradient(0, 0, 0, combinedCanvas.height);
+  gradient.addColorStop(0, 'rgba(104, 38, 240, 0.04)');
+  gradient.addColorStop(1, 'rgba(104, 38, 240, 0.00)');
+
+  // Apply gradient to the background
+  ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, combinedCanvas.width, combinedCanvas.height);
 
   ctx.drawImage(logoTextCanvas, 0, 0); // Draw logo and text canvas on the left
