@@ -37,7 +37,7 @@ async function generateCanvasForLogoAndText(score, roles) {
   // Load and draw the logo
   try {
     const icon = await loadImage('./c3-logo.png');
-    ctx.drawImage(icon, 30, 35, 24, 24); // Adjust positioning and size
+    ctx.drawImage(icon, 30, 40, 24, 24); // Adjust positioning and size
   } catch (error) {
     console.error('Failed to load the logo:', error);
     return;
