@@ -37,20 +37,21 @@ async function generateCanvasForLogoAndText(score, roles) {
   // Load and draw the logo
   try {
     const icon = await loadImage('./c3-logo.png');
-    ctx.drawImage(icon, 30, 30, 24, 24); // Adjust positioning and size
+    ctx.drawImage(icon, 30, 50, 24, 24); // Adjust positioning and size
   } catch (error) {
     console.error('Failed to load the logo:', error);
     return;
   }
 
   // Add title text below the logo
-  ctx.font = 'bold 18px Outfit'; // Use custom font 'Outfit'
+  ctx.font = 'bold 20px Outfit'; // Use custom font 'Outfit'
   ctx.fillStyle = '#1c1e26'; // Adjust text color
   ctx.textAlign = 'left';
   ctx.fillText('Connect3 Social Score', 70, 60); // Adjust position
 
   // Add score text
   ctx.font = '500 38px Outfit'; // Adjust font weight and size
+  ctx.fillStyle = '#971c1c';
   ctx.fillText(score.toString(), 30, 110); // Adjust position
 
   // Add stats items
@@ -79,6 +80,8 @@ async function generateCanvasForLogoAndText(score, roles) {
     ctx.fillText(`${stat.count} ${stat.label}`, xOffset, yOffset);
     xOffset += ctx.measureText(`${stat.count} ${stat.label}`).width + statsSpacing;
   }
+
+  xOffset = 30;
 
   // Draw stats2 in the second row
   for (const stat of stats2) {
