@@ -35,7 +35,7 @@ async function generateCanvasForLogoAndText(score, roles) {
   const ctx = canvas.getContext('2d');
 
   // Add title text below the logo
-  ctx.font = 'bold 20px Outfit'; // Use custom font 'Outfit'
+  ctx.font = '500 20px Outfit'; // Use custom font 'Outfit'
   ctx.fillStyle = '#1c1e26'; // Adjust text color
   ctx.textAlign = 'left';
   ctx.fillText('Your Farcaster Social Score', 30, 60); // Adjust position
@@ -216,7 +216,7 @@ async function combineCanvases(data, labels, score, roles, title) {
   }
 
   // Add title text below the logo
-  ctx.font = 'bold 16px Outfit'; // Use custom font 'Outfit'
+  ctx.font = '500 16px Outfit'; // Use custom font 'Outfit'
   ctx.fillStyle = '#1c1e26'; // Adjust text color
   ctx.textAlign = 'left';
   ctx.fillText('Connect3', 655, 25); // Adjust position
