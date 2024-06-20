@@ -210,17 +210,32 @@ async function combineCanvases(data, labels, score, roles, title) {
 
 async function generateBadgeMinterCanvas(roles) {
   // Filter roles to get only valid roles with corresponding image paths
+  const validRoles = {
+    'creator1': 'creator1.png',
+    'creator2': 'creator2.png',
+    'creator3': 'creator3.png',
+    'curator1': 'curator1.png',
+    'curator2': 'curator2.png',
+    'curator3': 'curator3.png',
+    'influencer1': 'influencer1.png',
+    'influencer2': 'influencer2.png',
+    'influencer3': 'influencer3.png',
+    'reviewer1': 'reviewer1.png',
+    'reviewer2': 'reviewer2.png',
+    'reviewer3': 'reviewer3.png'
+  };
+
   const filteredRoles = roles.filter(role => validRoles.hasOwnProperty(role));
 
   // Calculate canvas dimensions based on number of badges
   const canvasWidth = 750;
+  const canvasHeight = 400; // Set canvas height to 400 pixels
   const sectionPadding = 80;
   const imageGridGap = 20;
   const badgeWidth = 140;
   const badgeHeight = 140;
   const maxBadgesPerRow = 4;
   const numRows = Math.ceil(filteredRoles.length / maxBadgesPerRow);
-  const canvasHeight = sectionPadding * 2 + (numRows * (badgeHeight + imageGridGap)) - imageGridGap;
 
   // Create canvas
   const canvas = createCanvas(canvasWidth, canvasHeight);
@@ -230,19 +245,22 @@ async function generateBadgeMinterCanvas(roles) {
   ctx.fillStyle = 'rgba(104, 38, 240, 0.04)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+  // Add title
   const titleText = "You've successfully minted the badge(s)!";
   const titleFont = '500 20px Outfit, sans-serif';
   const titleColor = 'rgba(28, 30, 38, 0.92)';
-  // Add title
   ctx.font = titleFont;
   ctx.fillStyle = titleColor;
   ctx.textAlign = 'center';
   ctx.fillText(titleText, canvasWidth / 2, sectionPadding + 20);
 
-  // Load and draw badge images
-  let x = sectionPadding;
-  let y = sectionPadding;
+  // Calculate initial position to center badges
+  let totalBadgeWidth = maxBadgesPerRow * (badgeWidth + imageGridGap) - imageGridGap;
+  let startX = (canvasWidth - totalBadgeWidth) / 2;
+  let x = startX;
+  let y = sectionPadding + 50; // Start badges below the title
 
+  // Load and draw badge images
   for (let i = 0; i < filteredRoles.length; i++) {
     const role = filteredRoles[i];
     const imagePath = `./${validRoles[role]}`;
@@ -259,7 +277,7 @@ async function generateBadgeMinterCanvas(roles) {
 
     // Move to the next row after every maxBadgesPerRow badges
     if ((i + 1) % maxBadgesPerRow === 0) {
-      x = sectionPadding;
+      x = startX;
       y += badgeHeight + imageGridGap;
     }
   }
