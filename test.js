@@ -67,7 +67,7 @@ const server = http.createServer(async (req, res) => {
         const title = query.title ? query.title.trim() : 'Your Social Data';
 
         try {
-            const imageData = await generateBadgeMinterCanvas(data, labels, score, roles, title);
+            const imageData = await generateBadgeMinterCanvas(roles);
 
             // Construct HTML response with embedded image
             const htmlContent = `
