@@ -38,7 +38,7 @@ async function generateCanvasForLogoAndText(score, roles) {
   ctx.font = 'bold 20px Outfit'; // Use custom font 'Outfit'
   ctx.fillStyle = '#1c1e26'; // Adjust text color
   ctx.textAlign = 'left';
-  ctx.fillText('Your Farcaster Social Score', 70, 60); // Adjust position
+  ctx.fillText('Your Farcaster Social Score', 30, 60); // Adjust position
 
   // Add score text
   ctx.font = '650 38px Outfit'; // Adjust font weight and size
@@ -196,8 +196,8 @@ async function combineCanvases(data, labels, score, roles, title) {
   ctx.drawImage(logoTextCanvas, 0, 0); // Draw logo and text canvas on the left
 
   // Resize chartCanvas to 70% of its original size
-  const chartCanvasWidth = chartCanvas.width * 0.7;
-  const chartCanvasHeight = chartCanvas.height * 0.7;
+  const chartCanvasWidth = chartCanvas.width * 0.85;
+  const chartCanvasHeight = chartCanvas.height * 0.85;
 
   // Calculate the position to center the resized chartCanvas within the remaining space
   const xOffset = logoTextCanvas.width + (combinedCanvas.width - logoTextCanvas.width - chartCanvasWidth) / 2;
@@ -209,17 +209,17 @@ async function combineCanvases(data, labels, score, roles, title) {
   // Load and draw the logo
   try {
     const icon = await loadImage('./c3-logo.png');
-    ctx.drawImage(icon, 625, 40, 24, 24); // Adjust positioning and size
+    ctx.drawImage(icon, 625, 10, 19, 19); // Adjust positioning and size
   } catch (error) {
     console.error('Failed to load the logo:', error);
     return;
   }
 
   // Add title text below the logo
-  ctx.font = 'bold 20px Outfit'; // Use custom font 'Outfit'
+  ctx.font = 'bold 16px Outfit'; // Use custom font 'Outfit'
   ctx.fillStyle = '#1c1e26'; // Adjust text color
   ctx.textAlign = 'left';
-  ctx.fillText('Connect3', 660, 60); // Adjust position
+  ctx.fillText('Connect3', 655, 25); // Adjust position
 
   return combinedCanvas.toDataURL(); // Returns base64 string of the image
 }
