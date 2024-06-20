@@ -209,7 +209,7 @@ async function combineCanvases(data, labels, score, roles, title) {
 }
 
 async function generateBadgeMinterCanvas(roles) {
-  // Filter roles to get only valid roles with corresponding image paths
+  // Define all valid roles and corresponding image file names
   const validRoles = {
     'creator1': 'creator1.png',
     'creator2': 'creator2.png',
@@ -242,7 +242,10 @@ async function generateBadgeMinterCanvas(roles) {
   const ctx = canvas.getContext('2d');
 
   // Apply section background
-  ctx.fillStyle = 'rgba(104, 38, 240, 0.04)';
+  const gradient = ctx.createLinearGradient(0, 0, 0, canvasHeight);
+  gradient.addColorStop(0, 'rgba(104, 38, 240, 0.04)');
+  gradient.addColorStop(1, 'rgba(104, 38, 240, 0.00)');
+  ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   // Add title
@@ -255,7 +258,7 @@ async function generateBadgeMinterCanvas(roles) {
   ctx.fillText(titleText, canvasWidth / 2, sectionPadding + 20);
 
   // Calculate initial position to center badges
-  let totalBadgeWidth = maxBadgesPerRow * (badgeWidth + imageGridGap) - imageGridGap;
+  let totalBadgeWidth = Math.min(filteredRoles.length, maxBadgesPerRow) * (badgeWidth + imageGridGap) - imageGridGap;
   let startX = (canvasWidth - totalBadgeWidth) / 2;
   let x = startX;
   let y = sectionPadding + 50; // Start badges below the title
