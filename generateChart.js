@@ -69,14 +69,23 @@ async function generateCanvasForLogoAndText(score, roles) {
     { count: 80, label: "NFTs" },
   ];
 
-  let yOffset = 200; // Starting position for the first stats item
-  for (const stat of [...stats1, ...stats2]) {
-    if (yOffset + 24 <= maxCanvasHeight - 40) { // Check if there's enough space for the next stat item
-      ctx.fillText(`${stat.count} ${stat.label}`, 110, yOffset); // Adjust position
-      yOffset += 24; // Increase vertical spacing
-    } else {
-      console.log(`Insufficient space for ${stat.label}. Skipping.`);
-    }
+  let xOffset = 110; // Starting position for the first stats item
+  let yOffset = 200; // Vertical position for both rows
+  const statsSpacing = 16; // Spacing between stats items
+
+  // Draw stats1 in the first row
+  for (const stat of stats1) {
+    ctx.fillText(`${stat.count} ${stat.label}`, xOffset, yOffset);
+    xOffset += ctx.measureText(`${stat.count} ${stat.label}`).width + statsSpacing;
+  }
+
+  // Reset xOffset for stats2
+  xOffset = 110;
+
+  // Draw stats2 in the second row
+  for (const stat of stats2) {
+    ctx.fillText(`${stat.count} ${stat.label}`, xOffset, yOffset + 40); // Adjust yOffset for the second row
+    xOffset += ctx.measureText(`${stat.count} ${stat.label}`).width + statsSpacing;
   }
 
   // Add badges section
