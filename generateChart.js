@@ -30,7 +30,7 @@ async function generateCanvasForLogoAndText(score, roles) {
   };
 
   // Calculate canvas height based on the number of roles
-  const canvasHeight = 300 + (roles.length * 90); // Adjust as needed for spacing between elements
+  const canvasHeight = 400; // Adjust as needed for spacing between elements
   const canvasWidth = 350; // Fixed width for the canvas
   const canvas = createCanvas(canvasWidth, canvasHeight);
   const ctx = canvas.getContext('2d');
