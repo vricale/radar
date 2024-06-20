@@ -54,9 +54,10 @@ async function generateCanvasForLogoAndText(score, roles) {
   ctx.fillText(score.toString(), 30, 140); // Adjust position
 
   // Add stats items
-  ctx.font = 'normal 14px Inter'; // Use custom font 'Inter' for stats items
-  ctx.fillStyle = '#4a5067'; // Adjust text color
+  ctx.font = '400 12px Inter'; // Use custom font 'Inter' for stats items
+  ctx.fillStyle = '#4A5067'; // Adjust text color
   ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
 
   const stats1 = [
     { count: 100, label: "Posts" },
