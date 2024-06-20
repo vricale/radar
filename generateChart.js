@@ -80,7 +80,7 @@ async function generateCanvasForLogoAndText(score, roles) {
   }
 
   // Reset xOffset for stats2
-  xOffset = 110;
+  xOffset = 20;
 
   // Draw stats2 in the second row
   for (const stat of stats2) {
@@ -90,7 +90,7 @@ async function generateCanvasForLogoAndText(score, roles) {
 
   // Add badges section
   ctx.font = '500 20px Outfit'; // Adjust font weight and size for badges header
-  ctx.fillText('Badges', 30, maxCanvasHeight - 60); // Adjust position
+  ctx.fillText('Badges', 30, maxCanvasHeight - 100); // Adjust position
 
   // Load and draw badge images
   let badgeX = 30; // Initial X position for badges
