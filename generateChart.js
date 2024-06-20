@@ -170,7 +170,7 @@ async function generateCanvasForRadarChart(data, labels, title) {
             boxHeight: 20,
             boxWidth:0,
             font: {
-              size:10, // Adjust font size
+              size:12, // Adjust font size
             },
             textAlign: 'center',
             padding:20,
