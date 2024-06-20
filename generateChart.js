@@ -230,6 +230,15 @@ async function generateBadgeMinterCanvas(roles) {
   ctx.fillStyle = 'rgba(104, 38, 240, 0.04)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+  const titleText = "You've successfully minted the badge(s)!";
+  const titleFont = '500 20px Outfit, sans-serif';
+  const titleColor = 'rgba(28, 30, 38, 0.92)';
+  // Add title
+  ctx.font = titleFont;
+  ctx.fillStyle = titleColor;
+  ctx.textAlign = 'center';
+  ctx.fillText(titleText, canvasWidth / 2, sectionPadding + 20);
+
   // Load and draw badge images
   let x = sectionPadding;
   let y = sectionPadding;
