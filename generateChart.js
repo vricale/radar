@@ -71,7 +71,7 @@ async function generateCanvasForLogoAndText(score, roles) {
   ];
 
   let xOffset = 30; // Starting position for the first stats item
-  let yOffset = 140; // Vertical position for both rows
+  let yOffset = 180; // Vertical position for both rows
   const statsSpacing = 16; // Spacing between stats items
 
   // Draw stats1 in the first row
