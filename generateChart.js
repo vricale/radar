@@ -37,7 +37,7 @@ async function generateCanvasForLogoAndText(score, roles) {
   // Load and draw the logo
   try {
     const icon = await loadImage('./c3-logo.png');
-    ctx.drawImage(icon, 30, 30, 60, 60); // Adjust positioning and size
+    ctx.drawImage(icon, 30, 30, 24, 24); // Adjust positioning and size
   } catch (error) {
     console.error('Failed to load the logo:', error);
     return;
@@ -47,11 +47,11 @@ async function generateCanvasForLogoAndText(score, roles) {
   ctx.font = 'bold 18px Outfit'; // Use custom font 'Outfit'
   ctx.fillStyle = '#1c1e26'; // Adjust text color
   ctx.textAlign = 'left';
-  ctx.fillText('Connect3 Social Score', 110, 60); // Adjust position
+  ctx.fillText('Connect3 Social Score', 70, 60); // Adjust position
 
   // Add score text
   ctx.font = '500 38px Outfit'; // Adjust font weight and size
-  ctx.fillText(score.toString(), 30, 140); // Adjust position
+  ctx.fillText(score.toString(), 30, 110); // Adjust position
 
   // Add stats items
   ctx.font = '400 12px Inter'; // Use custom font 'Inter' for stats items
@@ -70,8 +70,8 @@ async function generateCanvasForLogoAndText(score, roles) {
     { count: 80, label: "NFTs" },
   ];
 
-  let xOffset = 20; // Starting position for the first stats item
-  let yOffset = 200; // Vertical position for both rows
+  let xOffset = 30; // Starting position for the first stats item
+  let yOffset = 180; // Vertical position for both rows
   const statsSpacing = 16; // Spacing between stats items
 
   // Draw stats1 in the first row
@@ -79,9 +79,6 @@ async function generateCanvasForLogoAndText(score, roles) {
     ctx.fillText(`${stat.count} ${stat.label}`, xOffset, yOffset);
     xOffset += ctx.measureText(`${stat.count} ${stat.label}`).width + statsSpacing;
   }
-
-  // Reset xOffset for stats2
-  xOffset = 20;
 
   // Draw stats2 in the second row
   for (const stat of stats2) {
@@ -91,11 +88,11 @@ async function generateCanvasForLogoAndText(score, roles) {
 
   // Add badges section
   ctx.font = '500 20px Outfit'; // Adjust font weight and size for badges header
-  ctx.fillText('Badges', 30, maxCanvasHeight - 100); // Adjust position
+  ctx.fillText('Badges', 30, maxCanvasHeight - 120); // Adjust position
 
   // Load and draw badge images
   let badgeX = 30; // Initial X position for badges
-  const badgeY = maxCanvasHeight - 80; // Y position for badges
+  const badgeY = maxCanvasHeight - 100; // Y position for badges
   const badgeWidth = 64; // Width of each badge
   const badgeHeight = 64; // Height of each badge
   for (let i = 0; i < roles.length && i < 4; i++) { // Only draw up to 4 badges
