@@ -1,9 +1,6 @@
 const { createCanvas, Image } = require('canvas');
 const { Chart, registerables } = require('chart.js');
 Chart.register(...registerables);
-// Register custom fonts if needed
-registerFont(path.resolve(__dirname, 'Outfit-Regular.ttf'), { family: 'Outfit' });
-registerFont(path.resolve(__dirname, 'Inter-Regular.ttf'), { family: 'Inter' });
 
 
 function loadImage(src) {
